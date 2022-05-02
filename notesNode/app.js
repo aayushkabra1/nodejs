@@ -1,15 +1,23 @@
 console.log("starting app...");
 
 const fs = require('fs');
-const os = require('os');
 const _ = require('lodash');
-var user = os.userInfo();
+const yargs = require('yargs');
 
-// console.log(_.isString(1));
-// console.log(_.isString("a"));
+const notes = require('./notes.js');
 
-var arr = _.uniq([1, 1, 1, 2, 2, 3, 4, 5,5]);
-console.log(arr);
+const argv = yargs.argv;
+var command = process.argv[2];
+console.log(`Command: ${command}`);
 
-// fs.appendFileSync('hello.txt', "Hello World!\n");
-// fs.appendFileSync('hello.txt', "Hello " + user.username + "!\n");
+if (command === "add") {
+    notes.addNote(argv.title, argv.body);
+} else if (command === "list") {
+    notes.getAll();
+} else if (command === "read") {
+    notes.read(argv.title);
+} else if (command === "remove") {
+    notes.remove(argv.title);
+} else {
+    console.log("Command Not Found.");
+}
